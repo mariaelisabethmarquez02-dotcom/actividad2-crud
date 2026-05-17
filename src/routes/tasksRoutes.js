@@ -10,13 +10,15 @@ const {
   deleteTask
 } = require("../controllers/tasksController");
 
+const { validateTask } = require("../middlewares/validateTask");
+
 router.get("/", getTasks);
 
 router.get("/:id", getTaskById);
 
-router.post("/", createTask);
+router.post("/", validateTask, createTask);
 
-router.put("/:id", updateTask);
+router.put("/:id", validateTask, updateTask);
 
 router.delete("/:id", deleteTask);
 
