@@ -2,6 +2,8 @@
 const express = require("express");
 const morgan = require("morgan");
 
+const sequelize = require("./config/bd_postgre");
+
 const indexRoutes = require("./routes/indexRoutes");
 const healthRoutes = require("./routes/healthRoutes");
 const tasksRoutes = require("./routes/tasksRoutes");
@@ -29,6 +31,21 @@ app.use("/tasks", tasksRoutes);
 app.use(notFound);
 
 app.use(errorHandler);
+
+// Conexión a PostgreSQL
+sequelize.authenticate()
+  .then(() => {
+    console.log("Conexión a PostgreSQL exitosa");
+  })
+  .catch((error) => {
+    console.error("Error de conexión:", error);
+  });
+
+// Sincronizar modelos
+sequelize.sync()
+  .then(() => {
+    console.log("Modelos sincronizados");
+  });
 
 // Servidor
 app.listen(PORT, "0.0.0.0", () => {

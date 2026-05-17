@@ -1,63 +1,53 @@
 # API REST CRUD - Tasks
 
-Proyecto desarrollado con Node.js y Express.
+## Descripción
+API RESTful desarrollada con Node.js, Express, Sequelize y PostgreSQL utilizando Docker.
+
+## Tecnologías
+- Node.js
+- Express
+- Sequelize
+- PostgreSQL
+- Docker
 
 ## Instalación
 
-```bash
 npm install
-```
-
-## Ejecución
-
-```bash
-npm start
-```
-
-o
-
-```bash
-npm run dev
-```
 
 ## Variables de entorno
 
-Crear archivo `.env`
-
-Ejemplo:
-
-```env
 PORT=3000
-```
+BD_HOST=postgreSQL-server
+BD_PORT=5432
+BD_NAME=practica
+BD_USER=postgres
+BD_PASSWORD=123456
+
+## Ejecución con Docker
+
+docker compose up --build
 
 ## Endpoints
 
-### Obtener tareas
 GET /tasks
-
-### Obtener tarea por ID
 GET /tasks/:id
-
-### Crear tarea
 POST /tasks
-
-### Actualizar tarea
 PUT /tasks/:id
-
-### Eliminar tarea
 DELETE /tasks/:id
 
-## Ejemplo JSON
+## Ejemplo POST
 
-```json
 {
-  "title": "Estudiar Node",
-  "description": "Practicar CRUD",
+  "title": "Practicar Docker",
+  "description": "Conectar PostgreSQL",
   "done": false,
-  "priority": "media"
+  "priority": "alta",
+  "category": "backend",
+  "dueDate": "2026-05-20"
 }
-```
 
 ## Evidencias
+Las capturas de pruebas se encuentran en la carpeta Evidencias/.
 
-Las capturas de pruebas se encuentran en la carpeta `evidencias/`.
+## Uso de IA
+Se utilizó ChatGPT como apoyo

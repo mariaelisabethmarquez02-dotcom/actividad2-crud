@@ -1,22 +1,18 @@
-let tasks = [
-  {
-    id: 1,
-    title: "Hacer actividad",
-    description: "CRUD con Express",
-    done: false,
-    priority: "alta"
-  }
-];
+const Task = require("../models/task");
 
-const getTasks = (req, res) => {
+const getTasks = async (req, res) => {
+
+  const tasks = await Task.findAll();
+
   res.status(200).json({
     ok: true,
     data: tasks
   });
 };
 
-const getTaskById = (req, res) => {
-  const task = tasks.find(t => t.id == req.params.id);
+const getTaskById = async (req, res) => {
+
+  const task = await Task.findByPk(req.params.id);
 
   if (!task) {
     return res.status(404).json({
@@ -31,22 +27,19 @@ const getTaskById = (req, res) => {
   });
 };
 
-const createTask = (req, res) => {
-  const newTask = {
-    id: tasks.length + 1,
-    ...req.body
-  };
+const createTask = async (req, res) => {
 
-  tasks.push(newTask);
+  const task = await Task.create(req.body);
 
   res.status(201).json({
     ok: true,
-    data: newTask
+    data: task
   });
 };
 
-const updateTask = (req, res) => {
-  const task = tasks.find(t => t.id == req.params.id);
+const updateTask = async (req, res) => {
+
+  const task = await Task.findByPk(req.params.id);
 
   if (!task) {
     return res.status(404).json({
@@ -55,7 +48,7 @@ const updateTask = (req, res) => {
     });
   }
 
-  Object.assign(task, req.body);
+  await task.update(req.body);
 
   res.json({
     ok: true,
@@ -63,17 +56,18 @@ const updateTask = (req, res) => {
   });
 };
 
-const deleteTask = (req, res) => {
-  const index = tasks.findIndex(t => t.id == req.params.id);
+const deleteTask = async (req, res) => {
 
-  if (index === -1) {
+  const task = await Task.findByPk(req.params.id);
+
+  if (!task) {
     return res.status(404).json({
       ok: false,
       error: "Tarea no encontrada"
     });
   }
 
-  tasks.splice(index, 1);
+  await task.destroy();
 
   res.status(204).send();
 };
